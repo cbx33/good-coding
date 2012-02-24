@@ -1,7 +1,10 @@
 \chapter{Tip 1 - First things first}
 \subsection{(or Why didn't you tell me that in the first place)}
 
-Consider the following conversation;
+\textit{Primo fac prima}. It's Latin and it means; First things first. 
+Though we often all have the intention of doing things in the right order, we don't always get it right.
+Getting it wrong can lead to a lot of wasted time and often it's not just your own time that you're wasting, it's other people's time too.
+Consider the following conversation as a case in point;
 
 \begin{trenches}
 Alvin: I've got an issue with my computer.
@@ -23,16 +26,54 @@ Bryan: Can you hook it up to another computer and try it?
 Alvin: No, I've run out of ink.
 \end{trenches}
 
-It's down right infuriating isn't it, when
+It's down right infuriating isn't it and it happens a lot.
+Doing things in the right order is essential and dealing with information in the right order is essential too.
+When you are evaluating a set of criteria during a selection process you will usually order them according to which is the most important.
+Why do we do this? To save time and effort. 
+If you \textbf{must} have 3 bedrooms in a house, you don't consider one bedroom apartments just because they have en suite bathrooms.
+Why? Because 3 bedrooms is your top priority, it is what you care about the most.
+
+In the land of software, ordering your conditional statements can be a tricky and subtle business, but let us examine the piece of code below.
 
 \begin{code}
-import re
-import sys
+def prime(number):
+	for test in range(number/2+1)[2:]:
+		if number%test == 0:
+			return 0
+	return 1
 
-a = [3,4,5,6,7]
+def even(number):
+	if number%2 == 0:
+		return 1
+	else:
+		return 0
 
-for i in a:
-	print "hi" + str(a)
+number_list = range(1,50000)
+
+def slow_function():
+	special_numbers = []
+	for number in number_list:
+		print "Trying: ", number
+		if prime(number):
+			if number < 1000:
+				special_numbers.append(number)
+		elif even(number):
+			if number < 1000:
+				special_numbers.append(number)
+
+def fast_function():
+	special_numbers = []
+	for number in number_list:
+		print "Trying: ", number
+		if number < 1000:
+			if prime(number):
+				special_numbers.append(number)
+			elif even(number):
+				special_numbers.append(number)
+	print special_numbers
+
+slow_function() #14 seconds
+fast_function() #1 second
 \end{code}
 
 \begin{callout}{Remember}{You don't get nothing for free}
