@@ -29,9 +29,10 @@ Alvin: No, I've run out of ink.
 It's down right infuriating isn't it and it happens a lot.
 Doing things in the right order is essential and dealing with information in the right order is essential too.
 When you are evaluating a set of criteria during a selection process you will usually order them according to which is the most important.
-Why do we do this? To save time and effort. 
+Why do we do this? To save time and effort.
+
 If you \textbf{must} have 3 bedrooms in a house, you don't consider one bedroom apartments just because they have en suite bathrooms.
-Why? Because 3 bedrooms is your top priority, it is what you care about the most.
+Why? Because 3 bedrooms is your top priority. It is what you care about the most.
 
 In the land of software, ordering your conditional statements can be a tricky and subtle business, but let us examine the piece of code below.
 
@@ -50,7 +51,7 @@ def even(number):
 
 number_list = range(1,50000)
 
-def slow_function():
+def function():
 	special_numbers = []
 	for number in number_list:
 		print "Trying: ", number
@@ -60,8 +61,25 @@ def slow_function():
 		elif even(number):
 			if number < 1000:
 				special_numbers.append(number)
+	print special_numbers
+function()
+\end{code}
 
-def fast_function():
+Now, let us ignore how the functions \texttt{prime()} and \texttt{even()} actually work.
+We will assume for now, that they return either \texttt{True} or \texttt{False}, to indicate that the number supplied is either \textit{prime} or \textit{even}.
+So, we create an array of numbers from 1 to 50,000 and call it number\_list.
+We then define a function, which steps through these numbers one by one and is intended to create a list of \textit{even} and \textit{prime} numbers.
+
+As you can see, we have our conditionals in the code to check this. There is also another check made to see if the number is under 1,000.
+There is nothing wrong with this code. It works perfectly well. On my machine it takes a little over 14 seconds to run.
+Can you see a potential area for improvement?
+
+Of course! The most important criteria to us, the one that has the biggest impact, is that the number should be under 1,000. 
+That rules out most of the numbers. 
+If we shift around the conditionals slightly, we can make the code run much faster. Consider the code below.
+
+\begin{code}
+def function():
 	special_numbers = []
 	for number in number_list:
 		print "Trying: ", number
@@ -71,11 +89,12 @@ def fast_function():
 			elif even(number):
 				special_numbers.append(number)
 	print special_numbers
-
-slow_function() #14 seconds
-fast_function() #1 second
 \end{code}
 
-\begin{callout}{Remember}{You don't get nothing for free}
-There is always some compromise
-\end{callout}
+Notice now that we have managed to weed out most of the numbers at the first hurdle.
+As it turns out, the function for testing for prime is actually quite costly.
+We will ignore the fact that this function in itself could be improved.
+
+%\begin{callout}{Remember}{You don't get nothing for free}
+%There is always some compromise
+%\end{callout}
