@@ -1,0 +1,54 @@
+<h1>Tip 1 - First things first</h1>
+<h2>(or Why didn't you tell me that in the first place)</h2>
+
+<em>Primo fac prima</em>. It's Latin and it means; First things first. 
+Though we often all have the intention of doing things in the right order, we don't always get it right.
+Getting it wrong can lead to a lot of wasted time and often it's not just your own time that you're wasting, it's other people's time too.
+Consider the following conversation as a case in point;
+
+<blockquote>
+Alvin: I've got an issue with my computer.
+Bryan: What seems to be wrong?
+Alvin: It doesn't print when I ask it to.
+Bryan: Have you tried turning the printer off and on again?
+Alvin: Yes.
+Bryan: Have you reinstalled the print drivers?
+Alvin: Yes.
+Bryan: Can you hook it up to another computer and try it?
+Alvin: No, I've run out of ink.
+</blockquote>
+
+It's down right infuriating isn't it and it happens a lot.
+Doing things in the right order is essential and dealing with information in the right order is essential too.
+When you are evaluating a set of criteria during a selection process you will usually order them according to which is the most important.
+Why do we do this? To save time and effort.
+
+If you <strong>must</strong> have 3 bedrooms in a house, you don't consider one bedroom apartments just because they have en suite bathrooms.
+Why? Because 3 bedrooms is your top priority. It is what you care about the most.
+
+In the land of software, ordering your conditional statements can be a tricky and subtle business, but let us examine the piece of code below.
+
+<tip id="snip1" />
+
+Now, let us ignore how the functions \texttt{prime()} on line <<<ref#1>>> and \texttt{even()} on line <<<ref#2>>> actually work.
+We will assume for now, that they return either \texttt{True} or \texttt{False}, to indicate that the number supplied is either \textit{prime} or \textit{even}.
+So, we create an array of numbers from 1 to 50,000 and call it number\_list.
+We then define a function, which steps through these numbers one by one and is intended to create a list of \textit{even} and \textit{prime} numbers.
+
+As you can see, we have our conditionals in the code to check this. There is also another check made to see if the number is under 1,000.
+There is nothing wrong with this code. It works perfectly well. On my machine it takes a little over 14 seconds to run.
+Can you see a potential area for improvement?
+
+Of course! The most important criteria to us, the one that has the biggest impact, is that the number should be under 1,000. 
+That rules out most of the numbers. 
+If we shift around the conditionals slightly, we can make the code run much faster. Consider the code below.
+
+<tip id="snip2" />
+
+Notice now that we have managed to weed out most of the numbers at the first hurdle.
+As it turns out, the function for testing for prime is actually quite costly.
+We will ignore the fact that this function in itself could be improved.
+
+%\begin{callout}{Remember}{You don't get nothing for free}
+%There is always some compromise
+%\end{callout}
