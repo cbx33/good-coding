@@ -23,7 +23,7 @@ for snippet in snippets:
 		references = re.search("(<<<ref#(\d)>>>)", line)
 		if references:
 			ref = references.groups()[1]
-			REFS[ref] = snippet_code_lines.index(line)
+			REFS[ref] = snippet_code_lines.index(line) + 1
 			snippet_code = snippet_code.replace(references.groups()[0], "")
 	f.close()
 	tip_html = tip_html.replace(snippet[0], highlight(snippet_code, PythonLexer(), HtmlFormatter(linenos=True,)))
