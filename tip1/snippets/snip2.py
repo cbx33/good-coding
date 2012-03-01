@@ -7,4 +7,4 @@ def function():
 				special_numbers.append(number)
 			elif even(number):
 				special_numbers.append(number)
-	print special_numbers
+<<<ref#3>>>	print special_numbers
