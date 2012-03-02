@@ -17,33 +17,38 @@ class tip():
 		self.tip_data = f.read()
 		f.close()		
 
-	def process_tip(self):
-		snippets = re.findall("(<tip id=\"snip(\d*)\" />)", self.tip_data)
-
-		for snippet in snippets:
-			f = open(self.path + "snippets/" + "snip" + snippet[1] + ".py")
-			snippet_code = f.read()
-			snippet_code_lines = snippet_code.split("\n")
-			for line in snippet_code_lines:
-				references = re.search("(<<<ref#(\d)>>>)", line)
-				if references:
-					ref = references.groups()[1]
-					self.refs[ref] = snippet_code_lines.index(line) + 1
-					snippet_code = snippet_code.replace(references.groups()[0], "")
-			f.close()
-			self.tip_data = self.tip_data.replace(snippet[0], highlight(snippet_code, PythonLexer(), HtmlFormatter(linenos=True,)))
-
-		snippet_refs = re.findall("(<<<ref#(\d)>>>)", self.tip_data)
-
-		for snippet_ref in snippet_refs:
-			#print REFS[str(snippet_ref[1])]
-			self.tip_data = self.tip_data.replace(snippet_ref[0], str(self.refs[str(snippet_ref[1])]))
-			
+	def output_tip(self):
 		output = HEADER + self.tip_data
 
 		f = open("tmp.html", "w")
 		f.write(output)
 		f.close()
+
+
+	def process_snippet(self, snippet_data):
+		f = open(self.path + "snippets/" + snippet_data[1] + ".py")
+		snippet_code = f.read()
+		snippet_code_lines = snippet_code.split("\n")
+		for line in snippet_code_lines:
+			references = re.search("(<<<ref#(\d)>>>)", line)
+			if references:
+				ref = references.groups()[1]
+				self.refs[ref] = snippet_code_lines.index(line) + 1
+				snippet_code = snippet_code.replace(references.groups()[0], "")
+		f.close()
+		self.tip_data = self.tip_data.replace(snippet_data[0], highlight(snippet_code, PythonLexer(), HtmlFormatter(linenos=True,)))
+
+	def process_tip(self):
+		#Process snippets within the tip
+		snippets = re.findall("(<tip id=\"(snip\d*)\" />)", self.tip_data)
+		for snippet in snippets:
+			self.process_snippet(snippet)
+
+		#Process snippet references
+		snippet_refs = re.findall("(<<<ref#(\d)>>>)", self.tip_data)
+		for snippet_ref in snippet_refs:
+			self.tip_data = self.tip_data.replace(snippet_ref[0], str(self.refs[str(snippet_ref[1])]))
+
 
 new_tip = tip("tip1")
 new_tip.get_tip_data()
