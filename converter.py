@@ -52,13 +52,20 @@ class tip():
 		else:
 			return check_lang
 
+	def check_lang_ref(self, lang):
+		if self.refs.has_key(lang):
+			return True
+		else:
+			self.refs[lang] = {}
+
 	def process_snippet_refs(self, snippet_code, lang):
+		self.check_lang_ref(lang)
 		snippet_code_lines = snippet_code.split("\n")
 		for line in snippet_code_lines:
 			references = re.search("(<<<ref#(\d)>>>)", line)
 			if references:
 				ref = references.groups()[1]
-				self.refs[ref] = snippet_code_lines.index(line) + 1
+				self.refs[lang][ref] = snippet_code_lines.index(line) + 1
 				snippet_code = snippet_code.replace(references.groups()[0], "")
 		return snippet_code
 
@@ -77,8 +84,7 @@ class tip():
 		div_name = snippet_name + "-" + lang
 		header = "\n" + '<div id="' + div_name + '">' + "\n"
 		footer = "\n" + '</div>' + "\n"
-		return header + snippet_block + footer
-		
+		return header + snippet_block + footer		
 
 	def process_snippet(self, snippet_data):
 		snippet_name = snippet_data[1]
@@ -104,10 +110,12 @@ class tip():
 		for snippet in snippets:
 			self.process_snippet(snippet)
 
+		current_lang = self.langs[0]
+
 		#Process snippet references
 		snippet_refs = re.findall("(<<<ref#(\d)>>>)", self.tip_data)
 		for snippet_ref in snippet_refs:
-			self.tip_data = self.tip_data.replace(snippet_ref[0], str(self.refs[str(snippet_ref[1])]))
+			self.tip_data = self.tip_data.replace(snippet_ref[0], str(self.refs[current_lang][str(snippet_ref[1])]))
 
 
 new_tip = tip("tip1")
