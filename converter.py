@@ -41,6 +41,15 @@ class tip():
 		self.tip_data = f.read()
 		f.close()		
 
+	def build_js_refs(self):
+		js_ref_list = "\n\t\trefs = new Object;\n"
+		count = 1
+		for lang in self.langs:
+			js_ref_list += "\t"*2 + "refs." + lang + "= new Array();\n"
+			for ref in self.refs[lang]:
+				js_ref_list += "\t"*2 + "refs." + lang + "[" + str(ref) + "]=" + str(self.refs[lang][ref]) + ";\n"
+		return js_ref_list
+
 	def build_js_lang(self):
 		js_lang_list = "\n"
 		count = 1
@@ -61,6 +70,7 @@ class tip():
 		output = TEMPLATE.replace("###CONTENT###", self.tip_data)
 		output = output.replace("###LANG_LIST###", self.build_js_lang())
 		output = output.replace("###SNIPPET_LIST###", self.build_js_snippet())
+		output = output.replace("###REFS_LIST###", self.build_js_refs())
 		output = output.replace("###DEFAULT_LANG###", self.def_lang)
 		f = open("tmp.html", "w")
 		f.write(output)
@@ -172,6 +182,7 @@ class tip():
 		for snippet_ref in snippet_refs:
 			self.tip_data = self.tip_data.replace(snippet_ref[0], str(self.refs[current_lang][str(snippet_ref[1])]))
 
+		print self.refs
 
 new_tip = tip("tip1")
 new_tip.process_tip()
