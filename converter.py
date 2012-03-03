@@ -52,11 +52,7 @@ class tip():
 		else:
 			return check_lang
 
-	def process_snippet_lang(self, snippet_name, lang):
-		snippet_filename = snippet_name + "." + lang
-		snippet_lexer = get_lexer_for_filename(snippet_filename)
-		f = open(self.snippet_path+ "/" + snippet_filename)
-		snippet_code = f.read()
+	def process_snippet_refs(self, snippet_code, lang):
 		snippet_code_lines = snippet_code.split("\n")
 		for line in snippet_code_lines:
 			references = re.search("(<<<ref#(\d)>>>)", line)
@@ -64,9 +60,25 @@ class tip():
 				ref = references.groups()[1]
 				self.refs[ref] = snippet_code_lines.index(line) + 1
 				snippet_code = snippet_code.replace(references.groups()[0], "")
+		return snippet_code
+
+	def process_snippet_lang(self, snippet_name, lang):
+		snippet_filename = snippet_name + "." + lang
+		snippet_lexer = get_lexer_for_filename(snippet_filename)
+		f = open(self.snippet_path+ "/" + snippet_filename)
+		snippet_code = f.read()
 		f.close()
+
+		snippet_code = self.process_snippet_refs(snippet_code, lang)
+
 		return highlight(snippet_code, snippet_lexer, HtmlFormatter(linenos=True,))
 
+	def wrap_snippet(self, snippet_block, snippet_name, lang):
+		div_name = snippet_name + "-" + lang
+		header = "\n" + '<div id="' + div_name + '">' + "\n"
+		footer = "\n" + '</div>' + "\n"
+		return header + snippet_block + footer
+		
 
 	def process_snippet(self, snippet_data):
 		snippet_name = snippet_data[1]
@@ -79,7 +91,8 @@ class tip():
 		snippet_blocks = ""
 
 		for lang in self.langs:
-			snippet_blocks += self.process_snippet_lang(snippet_name, lang)
+			snippet_block = self.process_snippet_lang(snippet_name, lang)
+			snippet_blocks += self.wrap_snippet(snippet_block, snippet_name, lang)
 
 		self.tip_data = self.tip_data.replace(snippet_ref, snippet_blocks)
 
