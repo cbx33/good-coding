@@ -1,0 +1,29 @@
+<html>
+<head>
+	<title>###TITLE###</title>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8">
+	<link rel="stylesheet" href="style.css">
+	<script type="text/javascript">
+		<!--
+		current_lang = "###DEFAULT_LANG###"
+		var langs = new Array()
+		###LANG_LIST###
+		var snippets = new Array()
+		###SNIPPET_LIST###
+
+		function change_lang(lang)
+		{
+			for (var i=1; i<snippets.length; i++)
+			{
+				document.getElementById(snippets[i] + "-" + current_lang).style.display = "None"
+				document.getElementById(snippets[i] + "-" + lang).style.display = "block"
+				current_lang = lang
+			}
+		}
+		-->
+	</script>
+</head>
+<body>
+###CONTENT###
+</body>
+</html>

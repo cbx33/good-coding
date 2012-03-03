@@ -5,7 +5,15 @@ from pygments.formatters import HtmlFormatter
 import re
 import os
 
-HEADER = '<link rel="stylesheet" href="style.css">'
+LANG_DICT = {'py': 'Python', 'cpp' : 'C++'}
+
+def set_template():
+	global TEMPLATE
+	f = open("template.html")
+	TEMPLATE = f.read()
+	f.close()
+
+set_template()
 
 class tip():
 	def __init__(self, name):
@@ -16,6 +24,14 @@ class tip():
 		self.tip_data = ""
 		self.langs = []
 		self.snippet_file_list = self.cache_snippet_dir()
+		self.def_lang = ""
+		self.snippets = []
+
+	def set_default_lang(self):
+		if "py" in self.langs:
+			self.def_lang = "py"
+		else:
+			self.def_lang = self.langs[0]
 		
 	def cache_snippet_dir(self):
 		 return os.listdir(self.snippet_path)
@@ -25,9 +41,27 @@ class tip():
 		self.tip_data = f.read()
 		f.close()		
 
-	def output_tip(self):
-		output = HEADER + self.tip_data
+	def build_js_lang(self):
+		js_lang_list = "\n"
+		count = 1
+		for lang in self.langs:
+			js_lang_list += "\t"*2 + 'langs[' + str(count) + '] = "' + lang + '";' + "\n"
+			count += 1
+		return js_lang_list
 
+	def build_js_snippet(self):
+		js_snippet_list = "\n"
+		count = 1
+		for snippet in self.snippets:
+			js_snippet_list += "\t"*2 + 'snippets[' + str(count) + '] = "' + snippet + '";' + "\n"
+			count += 1
+		return js_snippet_list
+
+	def output_tip(self):
+		output = TEMPLATE.replace("###CONTENT###", self.tip_data)
+		output = output.replace("###LANG_LIST###", self.build_js_lang())
+		output = output.replace("###SNIPPET_LIST###", self.build_js_snippet())
+		output = output.replace("###DEFAULT_LANG###", self.def_lang)
 		f = open("tmp.html", "w")
 		f.write(output)
 		f.close()
@@ -60,6 +94,7 @@ class tip():
 
 	def process_snippet_refs(self, snippet_code, lang):
 		self.check_lang_ref(lang)
+		self.set_default_lang()
 		snippet_code_lines = snippet_code.split("\n")
 		for line in snippet_code_lines:
 			references = re.search("(<<<ref#(\d)>>>)", line)
@@ -80,15 +115,33 @@ class tip():
 
 		return highlight(snippet_code, snippet_lexer, HtmlFormatter(linenos=True,))
 
+	def is_visible_attrib(self, lang):
+		if self.def_lang != lang:
+			return 'style="display:none"'
+		else:
+			return ""
+
 	def wrap_snippet(self, snippet_block, snippet_name, lang):
 		div_name = snippet_name + "-" + lang
-		header = "\n" + '<div id="' + div_name + '">' + "\n"
+		header = "\n" + '<div id="' + div_name + '"' + self.is_visible_attrib(lang) + '>' + "\n"
 		footer = "\n" + '</div>' + "\n"
 		return header + snippet_block + footer		
+
+	def change_lang_control(self, lang):
+		attrib = 'onclick="change_lang(\'' + lang + '\')"'
+		return attrib
+
+	def wrap_snippet_blocks(self, snippet_blocks):
+		header = "<table><tr>"
+		for lang in self.langs:
+			header += "<td " + self.change_lang_control(lang) + ">" + LANG_DICT[lang] + "</td>"
+		header += "</tr></table>"
+		return header + snippet_blocks
 
 	def process_snippet(self, snippet_data):
 		snippet_name = snippet_data[1]
 		snippet_ref = snippet_data[0]
+		self.snippets.append(snippet_name)
 		check_snippet = self.check_snippet(snippet_name)
 		if check_snippet != True:
 			print (", ").join(check_snippet) + " is missing from snippet: " + snippet_name
@@ -100,7 +153,9 @@ class tip():
 			snippet_block = self.process_snippet_lang(snippet_name, lang)
 			snippet_blocks += self.wrap_snippet(snippet_block, snippet_name, lang)
 
-		self.tip_data = self.tip_data.replace(snippet_ref, snippet_blocks)
+		snippet_control = self.wrap_snippet_blocks(snippet_blocks)
+
+		self.tip_data = self.tip_data.replace(snippet_ref, snippet_control)
 
 	def process_tip(self):
 		self.get_tip_data()
