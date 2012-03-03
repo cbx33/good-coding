@@ -1,10 +1,10 @@
-<<<ref#1>>>def prime(number):
+def prime(number):
 	for test in range(number/2+1)[2:]:
 		if number%test == 0:
-			return 0
+<<<ref#1>>>			return 0
 	return 1
 
-<<<ref#2>>>def even(number):
+def even(number):
 	if number%2 == 0:
 		return 1
 	else:
@@ -12,7 +12,7 @@
 
 number_list = range(1,50000)
 
-def function():
+<<<ref#2>>>def function():
 	special_numbers = []
 	for number in number_list:
 		print "Trying: ", number
