@@ -19,6 +19,10 @@
 				document.getElementById(snippets[i] + "-" + lang).style.display = "block"
 				current_lang = lang
 			}
+			for (var i=1; i<refs[current_lang].length; i++)
+			{
+				document.getElementById("ref" + i).innerHTML = refs[lang][i]
+			}
 		}
 		-->
 	</script>

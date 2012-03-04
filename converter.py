@@ -175,12 +175,16 @@ class tip():
 		for snippet in snippets:
 			self.process_snippet(snippet)
 
-		current_lang = self.langs[0]
+		current_lang = self.def_lang
 
 		#Process snippet references
 		snippet_refs = re.findall("(<<<ref#(\d)>>>)", self.tip_data)
 		for snippet_ref in snippet_refs:
-			self.tip_data = self.tip_data.replace(snippet_ref[0], str(self.refs[current_lang][str(snippet_ref[1])]))
+			div_name = "ref" + snippet_ref[1]
+			header = '<span id="' + div_name + '">'
+			footer = '</span>'
+			reference_wrapper = header + str(self.refs[current_lang][str(snippet_ref[1])]) + footer
+			self.tip_data = self.tip_data.replace(snippet_ref[0], reference_wrapper)
 
 		print self.refs
 
