@@ -1,0 +1,70 @@
+body {
+	margin: 0px;
+	background-image: url(images/background.jpg);
+	background-repeat: repeat-x;
+	background-position: left top;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #525252;
+	background-color: #ddd;
+}
+h2 {
+	font-size: medium;
+	color: #018F90;
+}
+.ref {
+	color:#000;
+	padding-left:3px;
+	padding-right:3px;
+	background:#ddd;
+	-webkit-border-radius:5px;
+	-moz-border-radius:5px;
+}
+.content {
+	width:700px;
+	background-color: #FFFFFF;
+	padding: 20px 30px;
+	color: #525252;
+	text-align: justify;
+}
+.snippet {
+	border-left:5px #009090 solid;
+	padding-left:5px;
+	margin:0px 10px 0px 10px;
+
+}
+.snippet-block {
+	margin:20px 0px 20px 0px;
+}	
+.categories {
+	padding: 5px;
+	padding-bottom:20px;
+}
+pre {
+	margin: 0px;
+}
+.controls{
+	padding-left:9px;
+}
+.controls .inactive {
+	background:#00c0c0;
+	color:fff;
+	border-left:1px #fff solid;
+	padding:5px;
+	font-size: 10px;
+	font-weight: bold;
+	cursor: pointer;
+}
+.controls .active {
+	background:#009090;
+	color:fff;
+	border-left:1px #fff solid;
+	padding:5px;
+	font-size: 10px;
+	font-weight: bold;
+	cursor: pointer;
+}
+.controls .helper_lang {
+	font-size: 10px;
+	padding-left:10px;
+}
