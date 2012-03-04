@@ -161,14 +161,14 @@ class tip():
 		attrib = 'onclick="change_lang(\'' + lang + '\')"'
 		return attrib
 
-	def wrap_snippet_blocks(self, snippet_blocks):
+	def wrap_snippet_blocks(self, snippet_blocks, snippet_name):
 		header = '<table cellpadding="0" cellspacing="0" border="0" class="controls"><tr>'
 		for lang in self.langs:
 			if lang == self.def_lang:
 				hclass = "active"
 			else:
 				hclass = "inactive"
-			header += '<td class="' + hclass + '" ' + self.change_lang_control(lang) + ">" + LANG_DICT[lang] + "</td>"
+			header += '<td id="' + snippet_name + '-btn-' + lang + '" class="' + hclass + '" ' + self.change_lang_control(lang) + ">" + LANG_DICT[lang] + "</td>"
 		header += '<td class="helper_lang"><em>Click to change language</em></td></tr></table>'
 		return '<div class="snippet-block">' + header + snippet_blocks + '</div>'
 
@@ -187,7 +187,7 @@ class tip():
 			snippet_block = self.process_snippet_lang(snippet_name, lang)
 			snippet_blocks += self.wrap_snippet(snippet_block, snippet_name, lang)
 
-		snippet_control = self.wrap_snippet_blocks(snippet_blocks)
+		snippet_control = self.wrap_snippet_blocks(snippet_blocks, snippet_name)
 
 		self.tip_data = self.tip_data.replace(snippet_ref, snippet_control)
 
