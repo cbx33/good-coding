@@ -46,10 +46,25 @@ pre {
 .controls{
 	padding-left:9px;
 }
-.controls td {
+.controls .inactive {
+	background:#00c0c0;
+	color:fff;
+	border-left:1px #fff solid;
+	padding:5px;
+	font-size: 10px;
+	font-weight: bold;
+	cursor: pointer;
+}
+.controls .active {
 	background:#009090;
 	color:fff;
 	border-left:1px #fff solid;
 	padding:5px;
 	font-size: 10px;
+	font-weight: bold;
+	cursor: pointer;
+}
+.controls .helper_lang {
+	font-size: 10px;
+	padding-left:10px;
 }

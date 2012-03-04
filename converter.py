@@ -36,6 +36,8 @@ class tip():
 			self.def_lang = "py"
 		else:
 			self.def_lang = self.langs[0]
+		self.langs.remove(self.def_lang)
+		self.langs = [self.def_lang] + self.langs
 		
 	def cache_snippet_dir(self):
 		 return os.listdir(self.snippet_path)
@@ -105,6 +107,10 @@ class tip():
 					self.langs.append(extn)
 				else:
 					check_lang.remove(extn)
+
+		if lang_first_time == True:
+			self.set_default_lang()
+
 		if len(check_lang) == 0:
 			return True
 		else:
@@ -118,7 +124,7 @@ class tip():
 
 	def process_snippet_refs(self, snippet_code, lang):
 		self.check_lang_ref(lang)
-		self.set_default_lang()
+		#self.set_default_lang()
 		snippet_code_lines = snippet_code.split("\n")
 		for line in snippet_code_lines:
 			references = re.search("(<<<ref#(\d)>>>)", line)
@@ -158,8 +164,12 @@ class tip():
 	def wrap_snippet_blocks(self, snippet_blocks):
 		header = '<table cellpadding="0" cellspacing="0" border="0" class="controls"><tr>'
 		for lang in self.langs:
-			header += "<td " + self.change_lang_control(lang) + ">" + LANG_DICT[lang] + "</td>"
-		header += "</tr></table>"
+			if lang == self.def_lang:
+				hclass = "active"
+			else:
+				hclass = "inactive"
+			header += '<td class="' + hclass + '" ' + self.change_lang_control(lang) + ">" + LANG_DICT[lang] + "</td>"
+		header += '<td class="helper_lang"><em>Click to change language</em></td></tr></table>'
 		return '<div class="snippet-block">' + header + snippet_blocks + '</div>'
 
 	def process_snippet(self, snippet_data):
