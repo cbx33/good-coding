@@ -21,6 +21,7 @@ h2 {
 	-moz-border-radius:5px;
 }
 .content {
+	width:700px;
 	background-color: #FFFFFF;
 	padding: 20px 30px;
 	color: #525252;
@@ -35,3 +36,10 @@ h2 {
 .snippet-block {
 	margin:20px 0px 20px 0px;
 }	
+.categories {
+	padding: 5px;
+	padding-bottom:20px;
+}
+pre {
+margin: 0px;
+}

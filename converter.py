@@ -70,8 +70,16 @@ class tip():
 			count += 1
 		return js_snippet_list
 
+	def build_html_categories(self):
+		bs_cat = "<em>Categories: </em>"
+		for cat in self.categories:
+			bs_cat += '<span class="ref">' + cat + '</span>&nbsp'
+		return '<div class="categories">' + bs_cat + '</div>'
+
 	def output_tip(self):
-		content = "<h1>" + self.title + "</h1>\n" + "<h2>" + self.subtitle + "</h2>\n" + self.tip_data
+		content = "<h1>" + self.title + "</h1>\n" + "<h2>" + self.subtitle + "</h2>\n"
+		content += self.build_html_categories()
+		content += self.tip_data
 		output = TEMPLATE.replace("###CONTENT###", content)
 		output = output.replace("###LANG_LIST###", self.build_js_lang())
 		output = output.replace("###SNIPPET_LIST###", self.build_js_snippet())
