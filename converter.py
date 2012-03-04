@@ -72,6 +72,7 @@ class tip():
 		output = output.replace("###SNIPPET_LIST###", self.build_js_snippet())
 		output = output.replace("###REFS_LIST###", self.build_js_refs())
 		output = output.replace("###DEFAULT_LANG###", self.def_lang)
+		output = output.replace("###TITLE###", self.name)
 		f = open("tmp.html", "w")
 		f.write(output)
 		f.close()
