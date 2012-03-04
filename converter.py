@@ -152,7 +152,7 @@ class tip():
 		for lang in self.langs:
 			header += "<td " + self.change_lang_control(lang) + ">" + LANG_DICT[lang] + "</td>"
 		header += "</tr></table>"
-		return header + snippet_blocks
+		return '<div class="snippet-block">' + header + snippet_blocks + '</div>'
 
 	def process_snippet(self, snippet_data):
 		snippet_name = snippet_data[1]
