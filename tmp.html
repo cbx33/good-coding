@@ -16,6 +16,16 @@
 		snippets[1] = "snip1";
 		snippets[2] = "snip2";
 
+		
+		refs = new Object;
+		refs.cpp= new Array();
+		refs.cpp[1]=4;
+		refs.cpp[3]=10;
+		refs.cpp[2]=15;
+		refs.py= new Array();
+		refs.py[1]=1;
+		refs.py[3]=10;
+		refs.py[2]=7;
 
 		function change_lang(lang)
 		{
@@ -24,6 +34,10 @@
 				document.getElementById(snippets[i] + "-" + current_lang).style.display = "None"
 				document.getElementById(snippets[i] + "-" + lang).style.display = "block"
 				current_lang = lang
+			}
+			for (var i=1; i<refs[current_lang].length; i++)
+			{
+				document.getElementById("ref" + i).innerHTML = refs[lang][i]
 			}
 		}
 		-->
@@ -87,7 +101,8 @@ In the land of software, ordering your conditional statements can be a tricky an
 23
 24
 25
-26</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">def</span> <span class="n">prime</span><span class="p">(</span><span class="n">number</span><span class="p">)</span><span class="o">:</span>
+26
+27</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">def</span> <span class="n">prime</span><span class="p">(</span><span class="n">number</span><span class="p">)</span><span class="o">:</span>
 	<span class="k">for</span> <span class="n">test</span> <span class="n">in</span> <span class="n">range</span><span class="p">(</span><span class="n">number</span><span class="o">/</span><span class="mi">2</span><span class="o">+</span><span class="mi">1</span><span class="p">)[</span><span class="mi">2</span><span class="o">:</span><span class="p">]</span><span class="o">:</span>
 		<span class="k">if</span> <span class="n">number</span><span class="o">%</span><span class="n">test</span> <span class="o">==</span> <span class="mi">0</span><span class="o">:</span>
 			<span class="k">return</span> <span class="mi">0</span>
@@ -113,6 +128,7 @@ In the land of software, ordering your conditional statements can be a tricky an
 				<span class="n">special_numbers</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">number</span><span class="p">)</span>
 	<span class="n">print</span> <span class="n">special_numbers</span>
 <span class="n">function</span><span class="p">()</span>
+<span class="sc">&#39;I&#39;</span><span class="n">m</span> <span class="n">C</span><span class="o">++</span><span class="err">&#39;</span>
 </pre></div>
 </td></tr></table>
 </div>
@@ -174,7 +190,7 @@ In the land of software, ordering your conditional statements can be a tricky an
 </div>
 
 
-Now, let us ignore how the functions <em>prime()</em> on line 1 and <em>even()</em> on line 7 actually work.
+Now, let us ignore how the functions <em>prime()</em> on line <span id="ref1">1</span> and <em>even()</em> on line <span id="ref2">7</span> actually work.
 We will assume for now, that they return either <em>True</em> or <em>False</em>, to indicate that the number supplied is either <em>prime</em> or <em>even</em>.
 So, we create an array of numbers from 1 to 50,000 and call it number_list.
 We then define a function, which steps through these numbers one by one and is intended to create a list of <em>even</em> and <em>prime</em> numbers.
