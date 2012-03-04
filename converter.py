@@ -156,7 +156,7 @@ class tip():
 		return attrib
 
 	def wrap_snippet_blocks(self, snippet_blocks):
-		header = "<table><tr>"
+		header = '<table cellpadding="0" cellspacing="0" border="0" class="controls"><tr>'
 		for lang in self.langs:
 			header += "<td " + self.change_lang_control(lang) + ">" + LANG_DICT[lang] + "</td>"
 		header += "</tr></table>"

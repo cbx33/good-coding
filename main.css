@@ -43,3 +43,13 @@ h2 {
 pre {
 margin: 0px;
 }
+.controls{
+	padding-left:9px;
+}
+.controls td {
+	background:#009090;
+	color:fff;
+	border-left:1px #fff solid;
+	padding:5px;
+	font-size: 10px;
+}
