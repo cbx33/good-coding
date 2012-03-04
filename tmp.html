@@ -1,15 +1,16 @@
 <html>
 <head>
-	<title>tip1</title>
+	<title>Tip 1 - First things first</title>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8">
 	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="main.css">
 	<script type="text/javascript">
 		<!--
 		current_lang = "py"
 		var langs = new Array()
 		
-		langs[1] = "cpp";
-		langs[2] = "py";
+		langs[1] = "py";
+		langs[2] = "cpp";
 
 		var snippets = new Array()
 		
@@ -18,14 +19,14 @@
 
 		
 		refs = new Object;
-		refs.cpp= new Array();
-		refs.cpp[1]=4;
-		refs.cpp[3]=10;
-		refs.cpp[2]=15;
 		refs.py= new Array();
 		refs.py[1]=1;
 		refs.py[3]=10;
 		refs.py[2]=7;
+		refs.cpp= new Array();
+		refs.cpp[1]=4;
+		refs.cpp[3]=10;
+		refs.cpp[2]=15;
 
 		function change_lang(lang)
 		{
@@ -33,21 +34,24 @@
 			{
 				document.getElementById(snippets[i] + "-" + current_lang).style.display = "None"
 				document.getElementById(snippets[i] + "-" + lang).style.display = "block"
-				current_lang = lang
+				document.getElementById(snippets[i] + "-btn-" + current_lang).className = "inactive"
+				document.getElementById(snippets[i] + "-btn-" + lang).className = "active"
+
 			}
 			for (var i=1; i<refs[current_lang].length; i++)
 			{
 				document.getElementById("ref" + i).innerHTML = refs[lang][i]
 			}
+			current_lang = lang
 		}
 		-->
 	</script>
 </head>
 <body>
-<h1>Tip 1 - First things first</h1>
+	<div class="content">
+		<h1>Tip 1 - First things first</h1>
 <h2>(or Why didn't you tell me that in the first place)</h2>
-
-<em>Primo fac prima</em>. It's Latin and it means; First things first. 
+<div class="categories"><em>Categories: </em><span class="ref">optimisation</span>&nbsp<span class="ref">conditionals</span>&nbsp</div><em>Primo fac prima</em>. It's Latin and it means; First things first. 
 Though we often all have the intention of doing things in the right order, we don't always get it right.
 Getting it wrong can lead to a lot of wasted time and often it's not just your own time that you're wasting, it's other people's time too.
 Consider the following conversation as a case in point;
@@ -74,8 +78,64 @@ Why? Because 3 bedrooms is your top priority. It is what you care about the most
 
 In the land of software, ordering your conditional statements can be a tricky and subtle business, but let us examine the piece of code below.
 
-<table><tr><td onclick="change_lang('cpp')">C++</td><td onclick="change_lang('py')">Python</td></tr></table>
-<div id="snip1-cpp"style="display:none">
+<div class="snippet-block"><table cellpadding="0" cellspacing="0" border="0" class="controls"><tr><td id="snip1-btn-py" class="active" onclick="change_lang('py')">Python</td><td id="snip1-btn-cpp" class="inactive" onclick="change_lang('cpp')">C++</td><td class="helper_lang"><em>Click to change language</em></td></tr></table>
+<div id="snip1-py" class="snippet">
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">def</span> <span class="nf">prime</span><span class="p">(</span><span class="n">number</span><span class="p">):</span>
+	<span class="k">for</span> <span class="n">test</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">number</span><span class="o">/</span><span class="mi">2</span><span class="o">+</span><span class="mi">1</span><span class="p">)[</span><span class="mi">2</span><span class="p">:]:</span>
+		<span class="k">if</span> <span class="n">number</span><span class="o">%</span><span class="n">test</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+			<span class="k">return</span> <span class="mi">0</span>
+	<span class="k">return</span> <span class="mi">1</span>
+
+<span class="k">def</span> <span class="nf">even</span><span class="p">(</span><span class="n">number</span><span class="p">):</span>
+	<span class="k">if</span> <span class="n">number</span><span class="o">%</span><span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+		<span class="k">return</span> <span class="mi">1</span>
+	<span class="k">else</span><span class="p">:</span>
+		<span class="k">return</span> <span class="mi">0</span>
+
+<span class="n">number_list</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">50000</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">function</span><span class="p">():</span>
+	<span class="n">special_numbers</span> <span class="o">=</span> <span class="p">[]</span>
+	<span class="k">for</span> <span class="n">number</span> <span class="ow">in</span> <span class="n">number_list</span><span class="p">:</span>
+		<span class="k">print</span> <span class="s">&quot;Trying: &quot;</span><span class="p">,</span> <span class="n">number</span>
+		<span class="k">if</span> <span class="n">prime</span><span class="p">(</span><span class="n">number</span><span class="p">):</span>
+			<span class="k">if</span> <span class="n">number</span> <span class="o">&lt;</span> <span class="mi">1000</span><span class="p">:</span>
+				<span class="n">special_numbers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">number</span><span class="p">)</span>
+		<span class="k">elif</span> <span class="n">even</span><span class="p">(</span><span class="n">number</span><span class="p">):</span>
+			<span class="k">if</span> <span class="n">number</span> <span class="o">&lt;</span> <span class="mi">1000</span><span class="p">:</span>
+				<span class="n">special_numbers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">number</span><span class="p">)</span>
+	<span class="k">print</span> <span class="n">special_numbers</span>
+<span class="n">function</span><span class="p">()</span>
+</pre></div>
+</td></tr></table>
+</div>
+
+<div id="snip1-cpp"style="display:none" class="snippet">
 <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
@@ -132,65 +192,9 @@ In the land of software, ordering your conditional statements can be a tricky an
 </pre></div>
 </td></tr></table>
 </div>
-
-<div id="snip1-py">
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26</pre></div></td><td class="code"><div class="highlight"><pre><span class="k">def</span> <span class="nf">prime</span><span class="p">(</span><span class="n">number</span><span class="p">):</span>
-	<span class="k">for</span> <span class="n">test</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">number</span><span class="o">/</span><span class="mi">2</span><span class="o">+</span><span class="mi">1</span><span class="p">)[</span><span class="mi">2</span><span class="p">:]:</span>
-		<span class="k">if</span> <span class="n">number</span><span class="o">%</span><span class="n">test</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-			<span class="k">return</span> <span class="mi">0</span>
-	<span class="k">return</span> <span class="mi">1</span>
-
-<span class="k">def</span> <span class="nf">even</span><span class="p">(</span><span class="n">number</span><span class="p">):</span>
-	<span class="k">if</span> <span class="n">number</span><span class="o">%</span><span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-		<span class="k">return</span> <span class="mi">1</span>
-	<span class="k">else</span><span class="p">:</span>
-		<span class="k">return</span> <span class="mi">0</span>
-
-<span class="n">number_list</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">50000</span><span class="p">)</span>
-
-<span class="k">def</span> <span class="nf">function</span><span class="p">():</span>
-	<span class="n">special_numbers</span> <span class="o">=</span> <span class="p">[]</span>
-	<span class="k">for</span> <span class="n">number</span> <span class="ow">in</span> <span class="n">number_list</span><span class="p">:</span>
-		<span class="k">print</span> <span class="s">&quot;Trying: &quot;</span><span class="p">,</span> <span class="n">number</span>
-		<span class="k">if</span> <span class="n">prime</span><span class="p">(</span><span class="n">number</span><span class="p">):</span>
-			<span class="k">if</span> <span class="n">number</span> <span class="o">&lt;</span> <span class="mi">1000</span><span class="p">:</span>
-				<span class="n">special_numbers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">number</span><span class="p">)</span>
-		<span class="k">elif</span> <span class="n">even</span><span class="p">(</span><span class="n">number</span><span class="p">):</span>
-			<span class="k">if</span> <span class="n">number</span> <span class="o">&lt;</span> <span class="mi">1000</span><span class="p">:</span>
-				<span class="n">special_numbers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">number</span><span class="p">)</span>
-	<span class="k">print</span> <span class="n">special_numbers</span>
-<span class="n">function</span><span class="p">()</span>
-</pre></div>
-</td></tr></table>
 </div>
 
-
-Now, let us ignore how the functions <em>prime()</em> on line <span id="ref1">1</span> and <em>even()</em> on line <span id="ref2">7</span> actually work.
+Now, let us ignore how the functions <em>prime()</em> on line <span id="ref1" class="ref">1</span> and <em>even()</em> on line <span id="ref2" class="ref">7</span> actually work.
 We will assume for now, that they return either <em>True</em> or <em>False</em>, to indicate that the number supplied is either <em>prime</em> or <em>even</em>.
 So, we create an array of numbers from 1 to 50,000 and call it number_list.
 We then define a function, which steps through these numbers one by one and is intended to create a list of <em>even</em> and <em>prime</em> numbers.
@@ -203,32 +207,8 @@ Of course! The most important criteria to us, the one that has the biggest impac
 That rules out most of the numbers. 
 If we shift around the conditionals slightly, we can make the code run much faster. Consider the code below.
 
-<table><tr><td onclick="change_lang('cpp')">C++</td><td onclick="change_lang('py')">Python</td></tr></table>
-<div id="snip2-cpp"style="display:none">
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">def</span> <span class="n">function</span><span class="p">()</span><span class="o">:</span>
-	<span class="n">special_numbers</span> <span class="o">=</span> <span class="p">[]</span>
-	<span class="k">for</span> <span class="n">number</span> <span class="n">in</span> <span class="nl">number_list:</span>
-		<span class="n">print</span> <span class="s">&quot;Trying: &quot;</span><span class="p">,</span> <span class="n">number</span>
-		<span class="k">if</span> <span class="n">number</span> <span class="o">&lt;</span> <span class="mi">1000</span><span class="o">:</span>
-			<span class="k">if</span> <span class="n">prime</span><span class="p">(</span><span class="n">number</span><span class="p">)</span><span class="o">:</span>
-				<span class="n">special_numbers</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">number</span><span class="p">)</span>
-			<span class="n">elif</span> <span class="n">even</span><span class="p">(</span><span class="n">number</span><span class="p">)</span><span class="o">:</span>
-				<span class="n">special_numbers</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">number</span><span class="p">)</span>
-	<span class="n">print</span> <span class="n">special_numbers</span>
-</pre></div>
-</td></tr></table>
-</div>
-
-<div id="snip2-py">
+<div class="snippet-block"><table cellpadding="0" cellspacing="0" border="0" class="controls"><tr><td id="snip2-btn-py" class="active" onclick="change_lang('py')">Python</td><td id="snip2-btn-cpp" class="inactive" onclick="change_lang('cpp')">C++</td><td class="helper_lang"><em>Click to change language</em></td></tr></table>
+<div id="snip2-py" class="snippet">
 <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
@@ -252,6 +232,30 @@ If we shift around the conditionals slightly, we can make the code run much fast
 </td></tr></table>
 </div>
 
+<div id="snip2-cpp"style="display:none" class="snippet">
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10</pre></div></td><td class="code"><div class="highlight"><pre><span class="n">def</span> <span class="n">function</span><span class="p">()</span><span class="o">:</span>
+	<span class="n">special_numbers</span> <span class="o">=</span> <span class="p">[]</span>
+	<span class="k">for</span> <span class="n">number</span> <span class="n">in</span> <span class="nl">number_list:</span>
+		<span class="n">print</span> <span class="s">&quot;Trying: &quot;</span><span class="p">,</span> <span class="n">number</span>
+		<span class="k">if</span> <span class="n">number</span> <span class="o">&lt;</span> <span class="mi">1000</span><span class="o">:</span>
+			<span class="k">if</span> <span class="n">prime</span><span class="p">(</span><span class="n">number</span><span class="p">)</span><span class="o">:</span>
+				<span class="n">special_numbers</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">number</span><span class="p">)</span>
+			<span class="n">elif</span> <span class="n">even</span><span class="p">(</span><span class="n">number</span><span class="p">)</span><span class="o">:</span>
+				<span class="n">special_numbers</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">number</span><span class="p">)</span>
+	<span class="n">print</span> <span class="n">special_numbers</span>
+</pre></div>
+</td></tr></table>
+</div>
+</div>
 
 Notice now that we have managed to weed out most of the numbers at the first hurdle.
 As it turns out, the function for testing for prime is actually quite costly.
@@ -260,6 +264,8 @@ We will ignore the fact that this function in itself could be improved.
 %\begin{callout}{Remember}{You don't get nothing for free}
 %There is always some compromise
 %\end{callout}
+<span id="ref3" class="ref">10</span>
 
+	</div>
 </body>
 </html>
