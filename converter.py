@@ -2,6 +2,7 @@ from pygments import highlight
 from pygments.lexers import PythonLexer
 from pygments.lexers import get_lexer_for_filename
 from pygments.formatters import HtmlFormatter
+import xml.etree.ElementTree as ET
 import re
 import os
 
@@ -18,6 +19,9 @@ set_template()
 class tip():
 	def __init__(self, name):
 		self.name = name
+		self.title = ""
+		self.subtitle = ""
+		self.categories = []
 		self.path = self.name + "/"
 		self.snippet_path = self.path + "snippets/"
 		self.refs = {}
@@ -67,12 +71,13 @@ class tip():
 		return js_snippet_list
 
 	def output_tip(self):
-		output = TEMPLATE.replace("###CONTENT###", self.tip_data)
+		content = "<h1>" + self.title + "</h1>\n" + "<h2>" + self.subtitle + "</h2>\n" + self.tip_data
+		output = TEMPLATE.replace("###CONTENT###", content)
 		output = output.replace("###LANG_LIST###", self.build_js_lang())
 		output = output.replace("###SNIPPET_LIST###", self.build_js_snippet())
 		output = output.replace("###REFS_LIST###", self.build_js_refs())
 		output = output.replace("###DEFAULT_LANG###", self.def_lang)
-		output = output.replace("###TITLE###", self.name)
+		output = output.replace("###TITLE###", self.title)
 		f = open("tmp.html", "w")
 		f.write(output)
 		f.close()
@@ -134,7 +139,7 @@ class tip():
 
 	def wrap_snippet(self, snippet_block, snippet_name, lang):
 		div_name = snippet_name + "-" + lang
-		header = "\n" + '<div id="' + div_name + '"' + self.is_visible_attrib(lang) + '>' + "\n"
+		header = "\n" + '<div id="' + div_name + '"' + self.is_visible_attrib(lang) + ' class="snippet">' + "\n"
 		footer = "\n" + '</div>' + "\n"
 		return header + snippet_block + footer		
 
@@ -168,8 +173,25 @@ class tip():
 
 		self.tip_data = self.tip_data.replace(snippet_ref, snippet_control)
 
+	def process_categories(self, categories):
+		sp_cats = []
+		cats = categories.split(",")
+		for cat in cats:
+			sp_cats.append(cat.strip())
+		return sp_cats
+
+	def process_metadata(self):
+		xml = ET.parse(self.path + "metadata.xml")
+		
+		self.title = xml.find("title").text
+		self.subtitle = xml.find("subtitle").text
+		categories = xml.find("categories").text
+		self.categories = self.process_categories(categories)
+
 	def process_tip(self):
 		self.get_tip_data()
+
+		self.process_metadata()
 		
 		#Process snippets within the tip
 		snippets = re.findall("(<tip id=\"(snip\d*)\" />)", self.tip_data)
@@ -182,7 +204,7 @@ class tip():
 		snippet_refs = re.findall("(<<<ref#(\d)>>>)", self.tip_data)
 		for snippet_ref in snippet_refs:
 			div_name = "ref" + snippet_ref[1]
-			header = '<span id="' + div_name + '">'
+			header = '<span id="' + div_name + '" class="ref">'
 			footer = '</span>'
 			reference_wrapper = header + str(self.refs[current_lang][str(snippet_ref[1])]) + footer
 			self.tip_data = self.tip_data.replace(snippet_ref[0], reference_wrapper)
