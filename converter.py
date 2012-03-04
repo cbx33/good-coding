@@ -186,8 +186,6 @@ class tip():
 			reference_wrapper = header + str(self.refs[current_lang][str(snippet_ref[1])]) + footer
 			self.tip_data = self.tip_data.replace(snippet_ref[0], reference_wrapper)
 
-		print self.refs
-
 new_tip = tip("tip1")
 new_tip.process_tip()
 new_tip.output_tip()
